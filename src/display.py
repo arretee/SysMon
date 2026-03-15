@@ -1,28 +1,32 @@
+import time
+import datetime
+
 from rich.live import Live
 from rich.table import Table
 
-def display_system_data_table(cpu_data, memory_data, discs_usage, interval):
-    """
-    Display table in command line with metrics and values about system usage.
+from collector import get_cpu_percent, get_disks_usage_percent, get_virtual_memory
 
-
-    :param cpu_data: list of the load on each processor core
-    :param memory_data: dictionary stores data about memory with keys: "used", "total", "percent".
-    :param discs_usage: dictionary stores data about discs usage with keys: "C:", "D:"... Values of these keys is the usage of each disc.
-    :param interval: get the interval time between refreshes
-    :return: null.
+def display_system_data_table(interval):
     """
-    with Live(refresh_per_second=1) as live:
+    Function to draw a table with info about system usage
+
+    :param interval: interval between refreshes.
+    :return: null
+    """
+    with Live(refresh_per_second=interval) as live:
+        while True:
             table = Table(title="System Metrics")
 
             table.add_column("Metric")
             table.add_column("Value")
 
             # CPU Data show
-            average_core_usage = sum(cpu_data) / len(cpu_data)
+            cpu_data = get_cpu_percent()
+            average_core_usage = round(sum(cpu_data) / len(cpu_data), 1)
             table.add_row("CPU Usage", f"{average_core_usage} %")
             for core_number, core_usage in enumerate(cpu_data):
                 table.add_row(f"Core {core_number} usage", f"{core_usage} %")
 
             live.update(table)
+            print(datetime.datetime.now())
 

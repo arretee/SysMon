@@ -13,4 +13,6 @@ build code that refactor data that comes from collector into data I need.
 I'm stuck on the problem that I can't move the while true clause outside the display_system_data_table function because rich stops working correctly.
 I can move the line of code "with Live(refresh_per_second=1) as live:" to main function to fix it, or I can move the "while True:" back into display.py, it will help but i think witch one is better.
 
-Okay, i have decided to move the "While True" back into a display.py.
+Okay, I have decided to move the "While True" back into a display.py.
+I have to refactor my collector code, i understand that i need to do there a refactoring of data.
+
