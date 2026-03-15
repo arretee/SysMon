@@ -12,7 +12,7 @@ def get_disc_usage(disc = 'C:'):
     """
     Returns named tuple with data about disc, if used without argument returns data about disc C.
 
-    :param disc: gets string with name of the disc. example of string: 'C:/'
+    :param disc: gets string with name of the disc. example of string: 'C:'
     :return: Returns named tuple with data about disc, example of return: sdiskusage(total=999495213056, used=336265076736, free=663230136320, percent=33.6)
     """
     return psutil.disk_usage(disc)
