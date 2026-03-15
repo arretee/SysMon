@@ -8,7 +8,7 @@ def get_cpu_percent():
 def get_virtual_memory():
     return psutil.virtual_memory()
 
-def get_disc_usage(disc = 'C:/'):
+def get_disc_usage(disc = 'C:'):
     """
     Returns named tuple with data about disc, if used without argument returns data about disc C.
 
@@ -19,3 +19,6 @@ def get_disc_usage(disc = 'C:/'):
 
 def get_disk_partitions():
     return psutil.disk_partitions()
+
+
+print(get_disc_usage())
