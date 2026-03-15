@@ -18,7 +18,7 @@ def get_virtual_memory():
         "percent": 0.0,
     }
 
-    memory_data_temp = get_virtual_memory()
+    memory_data_temp = psutil.virtual_memory()
     memory_data["used"] = memory_data_temp[3]
     memory_data["total"] = memory_data_temp[0]
     memory_data["percent"] = memory_data_temp[2]

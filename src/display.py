@@ -1,6 +1,3 @@
-import time
-import datetime
-
 from rich.live import Live
 from rich.table import Table
 
@@ -27,6 +24,15 @@ def display_system_data_table(interval):
             for core_number, core_usage in enumerate(cpu_data):
                 table.add_row(f"Core {core_number} usage", f"{core_usage} %")
 
-            live.update(table)
-            print(datetime.datetime.now())
+            # Memory
+            memory_data = get_virtual_memory()
 
+            live.update(table)
+            table.add_row("Used Memory", str(memory_data["used"]) + " MB")
+            table.add_row("Total Memory", str(memory_data["total"]) + " MB")
+            table.add_row("Usage Percent", str(memory_data["percent"]) + " MB")
+
+            # discs
+            discs_data = get_disks_usage_percent()
+            for disc in discs_data.keys():
+                table.add_row(f"{disc} usage precent", str(discs_data[disc]) + " %")
