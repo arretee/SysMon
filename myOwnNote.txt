@@ -1,0 +1,16 @@
+15.O3.2026
+Started work on project, created the project in PyCharm and downloaded the psutil and rich.
+
+testing outputs from psutil functions and creating collector.py.
+
+
+I'm learning how rich works, testing different types of tables, and thinking about the design of the final table.
+
+Starting work on main.py file, want to build a primitive loop of sysmon.
+
+build code that refactor data that comes from collector into data I need.
+
+I'm stuck on the problem that I can't move the while true clause outside the display_system_data_table function because rich stops working correctly.
+I can move the line of code "with Live(refresh_per_second=1) as live:" to main function to fix it, or I can move the "while True:" back into display.py, it will help but i think witch one is better.
+
+Okay, i have decided to move the "While True" back into a display.py.

@@ -19,6 +19,3 @@ def get_disc_usage(disc = 'C:'):
 
 def get_disk_partitions():
     return psutil.disk_partitions()
-
-
-print(get_disc_usage())
