@@ -1,11 +1,12 @@
 import psutil
 import os
 
-
+# -------------------------------- CPU Data Functions --------------------------------
 def get_cpu_percent():
     return psutil.cpu_percent(interval=2, percpu=True)
 
-def get_virtual_memory():
+# -------------------------------- Memory Data Functions --------------------------------
+def get_memory_data():
     """
     Function that collect data about memory.
 
@@ -24,6 +25,21 @@ def get_virtual_memory():
     memory_data["percent"] = memory_data_temp[2]
     return memory_data
 
+# -------------------------------- Discs Data Functions --------------------------------
+def get_discs_list():
+    """
+    function that create list with the names of all discs on a pc
+
+    :return: list of all names of discs on a pc.
+    """
+    discs = []
+
+    discs_data_temp = psutil.disk_partitions()
+    for disc in discs_data_temp:
+        # Get disc path ('C:', 'D:',...)
+        discs.append(disc[0][0:2])
+    return discs
+
 def get_disc_usage(disc = 'C:'):
     """
     Returns named tuple with data about disc, if used without argument returns data about disc C.
@@ -38,40 +54,19 @@ def get_disc_usage(disc = 'C:'):
 
     return psutil.disk_usage(disc)
 
-
-def get_discs_list():
-    """
-    function that create list with the names of all discs on a pc
-
-    :return: list of all names of discs on a pc.
-    """
-    discs = []
-
-    discs_data_temp = psutil.disk_partitions()
-    for disc in discs_data_temp:
-        # Get disc path ('C:', 'D:',...)
-        discs.append(disc[0][0:2])
-
-    return discs
-
-
-def get_disks_usage_percent():
+def get_discs_usage_percent():
     """
     Function collect data about all discs on a pc and returns dict with names and usage percent of each.
 
     :return: dict with names and usage percent of each disc on a pc.
     """
-    discs_data_temp = []
+    discs_list = []
     disks_usage_percent = {}
-    disc_path = ""
 
-    discs_data_temp = psutil.disk_partitions()
+    discs_list = get_discs_list()
 
-    for disc in discs_data_temp:
-        # Get disc path ('C:', 'D:',...)
-        disc_path = disc[0][0:2]
-
+    for disc in discs_list:
         # Store data about usage percent into a dict
-        disks_usage_percent[disc_path] = get_disc_usage(disc_path)[3]
+        disks_usage_percent[disc] = round(get_disc_usage(disc)[3], 1)
 
     return disks_usage_percent
