@@ -1,6 +1,6 @@
 import threading
 
-from collector import get_cpu_percent, get_disc_usage, get_virtual_memory
+from collector import get_cpu_percent, get_disc_usage, get_memory_data
 from display import display_system_data_table
 
 def main():
@@ -8,9 +8,12 @@ def main():
     interval = 2
 
 
-    # ----- Display Data in the terminal -----
-    display_system_data_table(interval)
+    try:
+        # ----- Display Data in the terminal -----
+        display_system_data_table(interval)
 
+    except KeyboardInterrupt:
+        print("\nThanks For Using SysMon\n")
 
 
 

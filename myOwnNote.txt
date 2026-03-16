@@ -22,3 +22,10 @@ done the first loop of a program.
 Now it can do the basic that it need to do -> show the info about system. Now i need to do a colors, logger, and flags.
 
 learning for the first time how to use pytest, wrote a test for a function in collector.py.
+
+16.03.2026
+done my first Mock test with pytest, I have stuck on syntaxis on the start... but now that works.
+Finished all tests for collector.
+
+Now i need to think about logger, I think that i need to create a thread for display function because i sure that i do not want to do a logger call from display function where the While True must be.
+I think that i will create an thread for this function, and from there I will make a log caller from main.

@@ -1,7 +1,7 @@
 from rich.live import Live
 from rich.table import Table
 
-from collector import get_cpu_percent, get_disks_usage_percent, get_virtual_memory
+from collector import get_cpu_percent, get_discs_usage_percent, get_memory_data
 
 def display_system_data_table(interval):
     """
@@ -25,7 +25,7 @@ def display_system_data_table(interval):
                 table.add_row(f"Core {core_number} usage", f"{core_usage} %")
 
             # Memory
-            memory_data = get_virtual_memory()
+            memory_data = get_memory_data()
 
             live.update(table)
             table.add_row("Used Memory", str(memory_data["used"]) + " MB")
@@ -33,6 +33,6 @@ def display_system_data_table(interval):
             table.add_row("Usage Percent", str(memory_data["percent"]) + " MB")
 
             # discs
-            discs_data = get_disks_usage_percent()
+            discs_data = get_discs_usage_percent()
             for disc in discs_data.keys():
                 table.add_row(f"{disc} usage precent", str(discs_data[disc]) + " %")
