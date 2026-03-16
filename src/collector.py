@@ -31,7 +31,29 @@ def get_disc_usage(disc = 'C:'):
     :param disc: gets string with name of the disc. example of string: 'C:'
     :return: Returns named tuple with data about disc, example of return: sdiskusage(total=999495213056, used=336265076736, free=663230136320, percent=33.6)
     """
+    discs = get_discs_list()
+
+    if disc not in discs:
+        raise NameError("Discs with name this name not found")
+
     return psutil.disk_usage(disc)
+
+
+def get_discs_list():
+    """
+    function that create list with the names of all discs on a pc
+
+    :return: list of all names of discs on a pc.
+    """
+    discs = []
+
+    discs_data_temp = psutil.disk_partitions()
+    for disc in discs_data_temp:
+        # Get disc path ('C:', 'D:',...)
+        discs.append(disc[0][0:2])
+
+    return discs
+
 
 def get_disks_usage_percent():
     """
