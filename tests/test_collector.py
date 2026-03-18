@@ -16,7 +16,6 @@ def test_get_cpu_percent(mocker):
 
     assert result == [20, 30, 40, 50, 60, 70]
 
-
 # --------------------------------- get_memory_data Tests --------------------------------
 # Test zero values
 def test_get_memory_data1(mocker):

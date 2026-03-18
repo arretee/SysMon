@@ -1,18 +1,36 @@
 import threading
+import time
 
-from collector import get_cpu_percent, get_disc_usage, get_memory_data
-from display import display_system_data_table
+from display import display_table
 
 def main():
     # ----- Variables declaration -----
     interval = 2
 
 
+    # ----- Create threads stop event -----
+    stop_event = threading.Event()
+
+
+    # ----- Create threads for Display and Logger -----
+    thread_display = threading.Thread(target=display_table, args=(interval, stop_event))
+
+
+
     try:
         # ----- Display Data in the terminal -----
-        display_system_data_table(interval)
+        thread_display.start()
+
+
+
+        # Keep the main thread running until KeyboardInterrupt ( CTRL + C)
+        while True:
+            time.sleep(0.5)
 
     except KeyboardInterrupt:
+        stop_event.set()
+        thread_display.join()
+
         print("\nThanks For Using SysMon\n")
 
 
