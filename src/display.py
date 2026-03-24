@@ -35,7 +35,7 @@ def display_table(interval, stop_event = threading.Event()):
 
             table.add_row("Used Memory", str(memory_data["used"]) + " MB")
             table.add_row("Total Memory", str(memory_data["total"]) + " MB")
-            table.add_row("Usage Percent", str(memory_data["percent"]) + " MB")
+            table.add_row("Memory Usage Percent", str(memory_data["percent"]) + "%")
 
             # Discs
             discs_data = get_discs_usage_percent()
