@@ -3,7 +3,6 @@ import time
 import datetime
 import os
 import csv
-from time import sleep
 
 import collector
 
@@ -58,7 +57,6 @@ def create_log_file(file_path, params_names):
 
 
 # ----------------------------------- Log data functions -----------------------------------
-
 def get_params_titles():
     """
     Function creates list with all params titles for log file
@@ -176,13 +174,14 @@ def logger(interval, path, stop_event = threading.Event()):
         os.mkdir(path)
 
     # ----- Create file if not exist -----
-    if not file_exist(path):
+    if not file_exist(file_path):
         create_log_file(file_path, get_params_titles())
 
 
     # ----- Logger Loop -----
     # Data to collect in this order -> ["Time", "CPU AVG Usage", "Core 0", "Core 1", ..., "Core X", "Memory Used", "Memory Total", "Memory Usage Percent", "Disc C: Usage Percent", "Disc D: Usage Percent", .... , "Disc X: Usage Percent"]
     params = []
+    params_list_history = []
     monotonic_timer = time.monotonic()
 
     cpu_cores_num = len(collector.get_cpu_percent())
@@ -193,8 +192,34 @@ def logger(interval, path, stop_event = threading.Event()):
         # Create data list for log
         params = get_log_line(cpu_cores_num, discs_list)
 
-        # Write log line
-        write_log_line(file_path, params)
+        # Check if still date is the same
+        temp_cur_date = datetime.date.today()
+        temp_str_date = f"{temp_cur_date.day}-{temp_cur_date.month}-{temp_cur_date.year}"
+        # if the date do not equal the previous date, change log file
+        if temp_str_date != str_date:
+            create_log_file(file_path, get_params_titles())
+            if path[-1] == '/':
+                file_path = path + str_date + ".csv"
+            else:
+                file_path = path + '/' + str_date + ".csv"
+
+            create_log_file(file_path, get_params_titles())
+
+        try:
+            # If was a permission error, complete missed lines to log file
+            if params_list_history != []:
+                for line in params_list_history:
+                    write_log_line(file_path, line)
+                # clear the list
+                params_list_history.clear()
+
+
+            # Write log line
+            write_log_line(file_path, params)
+
+        # If access for file is denied, save lines to list.
+        except PermissionError:
+            params_list_history.append(params.copy())
 
 
         # Wait for interval
@@ -208,5 +233,9 @@ def logger(interval, path, stop_event = threading.Event()):
     params = get_log_line(cpu_cores_num, discs_list)
 
     # Write log line
-    write_log_line(file_path, params)
+    try:
+        write_log_line(file_path, params)
+    except PermissionError:
+        pass
+
 
