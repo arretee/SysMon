@@ -16,8 +16,6 @@ I can move the line of code "with Live(refresh_per_second=1) as live:" to main f
 Okay, I have decided to move the "While True" back into a display.py.
 I have to refactor my collector code, i understand that i need to do there a refactoring of data.
 
-find out that I do not need a sleep function in the loop, because i have an argument in Live function that do the sleep work.
-
 done the first loop of a program.
 Now it can do the basic that it need to do -> show the info about system. Now i need to do a colors, logger, and flags.
 
@@ -28,4 +26,15 @@ done my first Mock test with pytest, I have stuck on syntaxis on the start... bu
 Finished all tests for collector.
 
 Now i need to think about logger, I think that i need to create a thread for display function because i sure that i do not want to do a logger call from display function where the While True must be.
-I think that i will create an thread for this function, and from there I will make a log caller from main.
+I think that i will create a thread for this function, and from there I will make a log caller from main.
+
+
+24.03.2026
+I'm starting work on the logger.py
+created and argument parser in main.py to get a path fol logger.
+created check for path, if path is invalid throwing an ValueError.
+
+
+
+
+Find a problem with collector, first call of get_cpu_percent() returns only list of zeros. fixed it with adding a sleep function for 10 first calls of this function.

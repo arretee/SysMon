@@ -1,9 +1,18 @@
+from time import sleep
+
 import psutil
-import os
 
 # -------------------------------- CPU Data Functions --------------------------------
+get_cpu_calls_number = 0
 def get_cpu_percent():
-    return psutil.cpu_percent(interval=2, percpu=True)
+    global get_cpu_calls_number
+
+    if get_cpu_calls_number < 10:
+        psutil.cpu_percent(interval=0, percpu=True)
+        sleep(0.1)
+        get_cpu_calls_number += 1
+
+    return psutil.cpu_percent(interval=0, percpu=True)
 
 # -------------------------------- Memory Data Functions --------------------------------
 def get_memory_data():

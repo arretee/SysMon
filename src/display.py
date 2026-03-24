@@ -1,4 +1,5 @@
 import threading
+from time import sleep
 
 from rich.live import Live
 from rich.table import Table
@@ -15,10 +16,9 @@ def display_table(interval, stop_event = threading.Event()):
     :return: null
     """
 
-    with Live(refresh_per_second=interval) as live:
+    with Live(refresh_per_second=4) as live:
         while not stop_event.is_set():
             table = Table(title="System Metrics")
-
             table.add_column("Metric")
             table.add_column("Value")
 
@@ -28,7 +28,7 @@ def display_table(interval, stop_event = threading.Event()):
             table.add_row("CPU Usage", f"{average_core_usage} %")
             # Create row for every core
             for core_number, core_usage in enumerate(cpu_data):
-                table.add_row(f"Core {core_number} usage", f"{core_usage} %")
+                table.add_row(f"CPU Core {core_number} usage", f"{core_usage} %")
 
             # Memory
             memory_data = get_memory_data()
@@ -44,3 +44,5 @@ def display_table(interval, stop_event = threading.Event()):
 
             # Update the table
             live.update(table)
+
+            sleep(interval)
