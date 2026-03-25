@@ -132,7 +132,10 @@ def get_log_line(cores_number, discs_list):
     # Discs
     discs_usage_percents = collector.get_discs_usage_percent()
     for disc in discs_list:
-        params.append(str(discs_usage_percents[disc]) + " %")
+        if disc in discs_usage_percents.keys():     # Check if disc is still in PC
+            params.append(str(discs_usage_percents[disc]) + " %")
+        else:
+            params.append("Unknown Status")
 
 
 
