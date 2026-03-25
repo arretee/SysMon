@@ -49,7 +49,7 @@ def test_create_log_file1(tmp_path):
 
 # Test with incorrect file name
 def test_create_log_file2(tmp_path):
-    file_path = tmp_path / "../test_create_log_file2_logs/25-4-1970"
+    file_path = tmp_path / "../test_create_log_file2_logs/1970-1-1"
     params_names = ["Time", "CPU AVG", "CORE 0", "TEST 3"]
 
     os.mkdir(tmp_path / "../test_create_log_file2_logs") # create temp folder
@@ -66,7 +66,7 @@ def test_create_log_file2(tmp_path):
 
 # Test with incorrect file name
 def test_create_log_file3(tmp_path):
-    file_path = tmp_path / "../unknown_folder/25-4-1970"
+    file_path = tmp_path / "../unknown_folder/1970-1-1"
     params_names = ["Time", "CPU AVG", "CORE 0", "TEST 3"]
 
     with pytest.raises(FileNotFoundError, match="Unknown Folder to create a File"):

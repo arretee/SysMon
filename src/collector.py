@@ -94,9 +94,9 @@ def get_date_string():
     """
     Get Date Function
 
-    :return: string with current date -> day:month:year
+    :return: string with current date -> year:month:day
     """
     cur_date = datetime.date.today()
-    str_date = f"{cur_date.day}-{cur_date.month}-{cur_date.year}"
+    str_date = f"{cur_date.year}-{cur_date.month}-{cur_date.day}"
 
     return str_date
