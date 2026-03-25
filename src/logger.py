@@ -179,7 +179,6 @@ def logger(interval, path, stop_event = threading.Event()):
 
 
     # ----- Logger Loop -----
-    # Data to collect in this order -> ["Time", "CPU AVG Usage", "Core 0", "Core 1", ..., "Core X", "Memory Used", "Memory Total", "Memory Usage Percent", "Disc C: Usage Percent", "Disc D: Usage Percent", .... , "Disc X: Usage Percent"]
     params = []
     params_list_history = []
 
@@ -188,21 +187,22 @@ def logger(interval, path, stop_event = threading.Event()):
 
 
     while not stop_event.is_set():
-        # Create data list for log
+        # Get data list for log
         params = get_log_line(cpu_cores_num, discs_list)
 
         # Check if still date is the same
         temp_cur_date = datetime.date.today()
         temp_str_date = f"{temp_cur_date.day}-{temp_cur_date.month}-{temp_cur_date.year}"
-        # if the date do not equal the previous date, change log file
+        # if the date do not equal the previous date, change log file (Create new log file for new day) and update variables
         if temp_str_date != str_date:
-            create_log_file(file_path, get_params_titles())
+            str_date = temp_str_date
             if path[-1] == '/':
                 file_path = path + str_date + ".csv"
             else:
                 file_path = path + '/' + str_date + ".csv"
 
-            create_log_file(file_path, get_params_titles())
+            if not file_exist(file_path):
+                create_log_file(file_path, get_params_titles())
 
         try:
             # If was a permission error, complete missed lines to log file
