@@ -182,7 +182,6 @@ def logger(interval, path, stop_event = threading.Event()):
     # Data to collect in this order -> ["Time", "CPU AVG Usage", "Core 0", "Core 1", ..., "Core X", "Memory Used", "Memory Total", "Memory Usage Percent", "Disc C: Usage Percent", "Disc D: Usage Percent", .... , "Disc X: Usage Percent"]
     params = []
     params_list_history = []
-    monotonic_timer = time.monotonic()
 
     cpu_cores_num = len(collector.get_cpu_percent())
     discs_list = collector.get_discs_list()
