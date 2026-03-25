@@ -1,3 +1,4 @@
+import datetime
 from time import sleep
 
 import psutil
@@ -39,7 +40,7 @@ def get_discs_list():
     """
     function that create list with the names of all discs on a pc
 
-    :return: list of all names of discs on a pc.
+    :return: list of all names of discs on a pc. Example -> ["C:", "D:"]
     """
     discs = []
 
@@ -79,3 +80,23 @@ def get_discs_usage_percent():
         disks_usage_percent[disc] = round(get_disc_usage(disc)[3], 1)
 
     return disks_usage_percent
+
+# -------------------------------- Get Time Functions --------------------------------
+def get_time_string():
+    """
+    Get Time Function
+
+    :return: string with current time -> hh:mm:ss
+    """
+    return str(datetime.datetime.now().time())[0:8]
+
+def get_date_string():
+    """
+    Get Date Function
+
+    :return: string with current date -> day:month:year
+    """
+    cur_date = datetime.date.today()
+    str_date = f"{cur_date.day}-{cur_date.month}-{cur_date.year}"
+
+    return str_date
