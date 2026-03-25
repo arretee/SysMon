@@ -12,7 +12,7 @@ def check_folder_exist(path):
     Function checks if folder exists on a pc
 
     :param path: path of a folder
-    :return:
+    :return: True or False value
     """
     return os.path.isdir(path)
 
@@ -22,7 +22,7 @@ def folder_can_be_created(path):
     Use this function to check before use os.mkdir
 
     :param path: path of a folder
-    :return:
+    :return: True or False Value
     """
     if '/' not in path:
         return True
