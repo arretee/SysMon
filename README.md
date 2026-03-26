@@ -36,10 +36,11 @@ Simple cmd tool that help to user monitor and log pc stats in real time, pc stat
 
 ## Features 
 ### Interval flag
-* Use flag -i to change interval between logs and table updates
+* Use flag -i or --interval to change interval between logs and table updates
+* Default value of this flag is 2 seconds
 * Example of using -i -> `python main.py -i 1`
 
 ### Path flag
-* Use flag -p to give your own path for logs files
-* Example of using -i -> `python main.py -p C:\My_Folder`
+* Use flag -l or --log to give your own path for logs files
+* Example of using -l or --log -> `python main.py -l C:\My_Folder`
 * Give paths of existing folders or path with only one last folder missing or you will get an error
