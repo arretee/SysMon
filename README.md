@@ -28,7 +28,7 @@ Simple cmd tool that help to user monitor and log pc stats in real time, pc stat
   
 <img width="759" height="34" alt="image" src="https://github.com/user-attachments/assets/7eef7674-3ded-41b5-a5e7-3dacffdcbd23" />'
 
-* Type in command line the folowwing commands -
+* Type in command line the following commands -
 * `python -m venv .venv`
 * `.venv\Scripts\activate`
 * `pip install - e`
