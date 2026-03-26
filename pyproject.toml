@@ -1,0 +1,18 @@
+[project]
+name = "SysMon_project_arretee"
+version = "0.0.1"
+authors = [
+    {name="arretee", email="arreteear@gmail.com"}
+]
+description = "cmd tool for monitoring and logging PC stats."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers =[
+    "Programming language :: Python :: 3",
+    "Operating System :: Windows 10",
+]
+license = "MIT"
+license-files = []
+
+[project.urls]
+Homepage = "https://github.com/arretee/SysMon"
