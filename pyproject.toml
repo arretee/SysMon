@@ -22,5 +22,8 @@ dependencies = [
     "psutil"
 ]
 
+[project.optional-dependencies]
+test = ["pytest"]
+
 [project.scripts]
-run_arretee_sysmon = "main:main"
+run-sysmon = "main:main"
