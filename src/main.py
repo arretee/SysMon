@@ -50,7 +50,6 @@ def main(interval, log_path):
             thread_logger.start()
 
 
-
         # Keep the main thread running until KeyboardInterrupt (CTRL + C)
         while True:
             time.sleep(interval/4)
