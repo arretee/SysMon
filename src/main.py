@@ -7,12 +7,13 @@ from display import display_table
 
 from logger import check_folder_exist, folder_can_be_created, logger
 
-def main(interval, log_path):
+def main(interval, log_path, cpu_warn_flag, mem_warn_flag):
     """
     Main function of SysMon Project. This function starts threads for display and for logger, also waits for CTRL + C From user and finish the threads.
-
     :param interval: Time between log and table updates (Seconds)
     :param log_path: Path for logs file folder.
+    :param mem_warn_flag: flag for display function that add colored memory indication
+    :param cpu_warn_flag: flag for display function that add colored cpu indication
     :return: None
     """
     # ----- Check arguments from flags -----
@@ -33,7 +34,7 @@ def main(interval, log_path):
 
 
     # ----- Create threads for Display and Logger -----
-    thread_display = threading.Thread(target=display_table, args=(interval, stop_event))
+    thread_display = threading.Thread(target=display_table, args=(interval, stop_event, mem_warn_flag, cpu_warn_flag))
 
     if logging:
         thread_logger = threading.Thread(target=logger, args=(interval, log_path, stop_event))
@@ -77,8 +78,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--interval", help = "Time between log and table updates (Seconds)", default = 2, type = float)
     parser.add_argument("-l", "--log", help = "Path for logs file folder, if not given logs are not created!", default=None, type = str)
+    parser.add_argument("--cpu-warn", help="Use flag without value to get colored cpu indication.", default=False, action=argparse.BooleanOptionalAction)
+    parser.add_argument("--mem-warn", help="Use flag without value to get colored memory indication.", default=False, action=argparse.BooleanOptionalAction)
+
 
 
     args = parser.parse_args()
 
-    main(args.interval, args.log)
+    main(args.interval, args.log, args.cpu_warn, args.mem_warn)

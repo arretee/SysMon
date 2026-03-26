@@ -1,7 +1,8 @@
 # Project architecture:
 
 ## Main function
-Main function can get 2 flags, one for interval of scans (Number of seconds between frames of logs and frames of table, by default = 2) and one for log_path where logs file will save (by default = None).
+Main function can get 4 flags, one for interval of scans (Number of seconds between frames of logs and frames of table, by default = 2) and one for log_path where logs file will save (by default = None).
+And 2 flags -> --mem-warn, --cpu-warn. this flags activate colored indication for cpu and memory stat, if stat above 60 percent -> yellow, if stat above 85 percent -> red.
 The main function in main.py is starting 2 threads, for display function and logger function each.
 The logger is activated only of -l or --log  flag is activated and correct path is given.
 After main function called the threads, main thread keep running inside While loop until CTRL + C is pressed.
