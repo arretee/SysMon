@@ -18,7 +18,7 @@ def main(interval, log_path):
     # ----- Check arguments from flags -----
     # Check if log_path is given and there is a need to log stats
     logging = False # Variable that stores status of logger, is it active on this program run or not
-    if logging is not None:
+    if log_path is not None:
         logging = True
 
     # Check if log path is valid, if folder exists or can be created
@@ -81,4 +81,4 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    main(args.interval, args.path)
+    main(args.interval, args.log)
