@@ -45,3 +45,15 @@ Simple cmd tool that help to user monitor and log pc stats in real time, pc stat
 * Example of using -l or --log -> `python main.py -l C:\My_Folder`
 * As resault of this run, file with logs will created in `C:\My_Folder`
 * Give paths of existing folders or path with only one last folder missing or you will get an error
+
+### Memory warn flag
+* use flag --mem-warn for turning on memory colored indication
+* when memory usage percent above 85 the stat is colored red
+* when memory usage percent above 60 the stat is colored yellow
+* Example of using --mem-warn -> `python main.py --mem-warn`
+  
+### CPU warn flag
+* use flag --cpu-warn for turning on cpu colored indication
+* when cpu core or avg usage percent above 85 the stat is colored red
+* when cpu core or avg usage percent above 60 the stat is colored yellow
+* Example of using --cpu-warn -> `python main.py --cpu-warn`
