@@ -1,11 +1,12 @@
 # SysMon
 cmd tool for monitoring and logging PC stats.
 
-<img width="324" height="705" alt="image" src="https://github.com/user-attachments/assets/adb94833-befc-4d03-8a28-2affabdd0dc7" />
+<img width="331" height="890" alt="image" src="https://github.com/user-attachments/assets/2c270888-b6f0-4a4b-9a05-9767575ff1e5" />
+
 
 
 ## Desctiption
-Simple cmd tool that help to user monitor and log pc stats in real time, pc stats that program monitor: CPU AVG and per core usage, memory used/total/usage percent, disc usage per disc.
+Simple cmd tool that help to user monitor and log pc stats in real time, pc stats that program monitor: CPU AVG and per core usage, memory used/total/usage percent, disc usage per disc, Donwload and upload speed per network interface.
 
 <img width="1703" height="598" alt="image" src="https://github.com/user-attachments/assets/dbcdfdf8-a703-4da5-8e66-dc79cb61c0cd" />
 
