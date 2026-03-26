@@ -77,7 +77,7 @@ def main(interval, log_path):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--interval", help = "Time between log and table updates (Seconds)", default = 2, type = float)
-    parser.add_argument("-l", "--log", help = "Path for logs file folder", default=None, type = str)
+    parser.add_argument("-l", "--log", help = "Path for logs file folder, if not given logs are not created!", default=None, type = str)
 
 
     args = parser.parse_args()
