@@ -23,4 +23,4 @@ dependencies = [
 ]
 
 [project.scripts]
-run_arretee_sysmon = "src.main:main"
+run_arretee_sysmon = "main:main"
