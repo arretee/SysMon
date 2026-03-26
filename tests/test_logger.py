@@ -1,4 +1,5 @@
 import threading
+from collections import deque
 
 import pytest
 
@@ -74,17 +75,9 @@ def test_create_log_file3(tmp_path):
 
 # ----------------------------------- Test -> Log data functions -----------------------------------
 # ----- get_params_titles -----
-def test_get_params_titles(mocker):
-    # Mock inside function get functions.
-    mock_collector_get_cpu_percent = mocker.patch("collector.get_cpu_percent")
-    mock_collector_get_cpu_percent.return_value = [0, 0, 0, 0, 0, 0]
-
-    mock_collector_get_discs_list = mocker.patch("collector.get_discs_list")
-    mock_collector_get_discs_list.return_value = ["C:", "D:"]
-
-
-    result = get_params_titles()
-    assert result == ["Time", "CPU AVG Usage", "Core 0", "Core 1", "Core 2", "Core 3", "Core 4", "Core 5", "Memory Used", "Memory Total", "Memory Usage Percent", "Disc C: Usage Percent", "Disc D: Usage Percent"]
+def test_get_params_titles():
+    result = get_params_titles(6, ["C:", "D:"], ["Ethernet"])
+    assert result == ["Time", "CPU AVG Usage", "Core 0", "Core 1", "Core 2", "Core 3", "Core 4", "Core 5", "Memory Used", "Memory Total", "Memory Usage Percent", "Disc C: Usage Percent", "Disc D: Usage Percent", "Ethernet Download Speed", "Ethernet Upload Speed"]
 
 
 # ----- get_log_line -----
@@ -104,8 +97,12 @@ def test_get_log_line1(mocker):
     mock_collector_get_discs_usage_percent = mocker.patch("collector.get_discs_usage_percent")
     mock_collector_get_discs_usage_percent.return_value = {"C:" : 50, "D:": 50}
 
-    expected_list = ["10:30:00", "0.0 %", "0 %", "0 %", "0 %", "0 %", "0 %", "0 %", "213134000 MB", "213134324 MB", "99.8 %", "50 %", "50 %"]
-    assert get_log_line(6, ["C:", "D:"]) == expected_list
+    # Set up the dict of network connections
+    network_connections = {"Ethernet": deque(maxlen=1)}
+    network_connections["Ethernet"].append((1000, 1500))
+
+    expected_list = ["10:30:00", "0.0 %", "0 %", "0 %", "0 %", "0 %", "0 %", "0 %", "213134000 MB", "213134324 MB", "99.8 %", "50 %", "50 %", "1000 kB/s", "1500 kB/s"]
+    assert get_log_line(6, ["C:", "D:"], network_connections) == expected_list, "Valid input test"
 
 # Test with input of -> number of cores = 0
 def test_get_log_line2(mocker):
@@ -123,9 +120,13 @@ def test_get_log_line2(mocker):
     mock_collector_get_discs_usage_percent = mocker.patch("collector.get_discs_usage_percent")
     mock_collector_get_discs_usage_percent.return_value = {"C:" : 50, "D:": 50}
 
+    # Set up the dict of network connections
+    network_connections = {"Ethernet": deque(maxlen=1)}
+    network_connections["Ethernet"].append((1000, 1500))
+
     # Assert
     with pytest.raises(ZeroDivisionError, match="Can't divide by zero, Number of cores can't be 0"):
-        get_log_line(0, ["C:", "D:"])
+        get_log_line(0, ["C:", "D:"], network_connections)
 
 # Test with zero discs in discs list input
 def test_get_log_line3(mocker):
@@ -143,8 +144,12 @@ def test_get_log_line3(mocker):
     mock_collector_get_discs_usage_percent = mocker.patch("collector.get_discs_usage_percent")
     mock_collector_get_discs_usage_percent.return_value = {"C:" : 50, "D:": 50}
 
-    expected_list = ["10:30:00", "0.0 %", "0 %", "0 %", "0 %", "0 %", "0 %", "0 %", "213134000 MB", "213134324 MB", "99.8 %"]
-    assert get_log_line(6, []) == expected_list
+    # Set up the dict of network connections
+    network_connections = {"Ethernet": deque(maxlen=1)}
+    network_connections["Ethernet"].append((1000, 1500))
+
+    expected_list = ["10:30:00", "0.0 %", "0 %", "0 %", "0 %", "0 %", "0 %", "0 %", "213134000 MB", "213134324 MB", "99.8 %", "1000 kB/s", "1500 kB/s"]
+    assert get_log_line(6, [], network_connections) == expected_list, "Zero discs test"
 
 
 
@@ -198,9 +203,9 @@ def test_logger2(mocker, tmp_path):
     interval = 1
     stop_event = threading.Event()
     params_frame = ["10:30:00", "0.0 %", "0 %", "0 %", "0 %", "0 %", "0 %", "0 %", "213134000 MB", "213134324 MB",
-                    "99.8 %", "50 %", "50 %"]
+                    "99.8 %", "50 %", "50 %", "0 kB/s", "0 kB/s"]
     param_titles = ["Time", "CPU AVG Usage", "Core 0", "Core 1", "Core 2", "Core 3", "Core 4", "Core 5", "Memory Used",
-                    "Memory Total", "Memory Usage Percent", "Disc C: Usage Percent", "Disc D: Usage Percent"]
+                    "Memory Total", "Memory Usage Percent", "Disc C: Usage Percent", "Disc D: Usage Percent", "Ethernet Download Speed", "Ethernet Upload Speed"]
 
     # mock functions
     mock_collector_get_date_string = mocker.patch("collector.get_date_string")
@@ -214,6 +219,12 @@ def test_logger2(mocker, tmp_path):
 
     mock_get_log_line = mocker.patch("logger.get_log_line")
     mock_get_log_line.return_value = params_frame
+
+    mock_network_connections = mocker.patch("collector.get_network_speed_deque_for_every_pc_connection")
+    network_connections = {"Ethernet": deque(maxlen=1)}
+    mock_network_connections.return_value = network_connections
+
+
 
     # call the function
     logger(interval, path, stop_event=stop_event, durations=2)

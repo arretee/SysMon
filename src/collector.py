@@ -48,9 +48,10 @@ def get_discs_list():
     discs = []
 
     discs_data_temp = psutil.disk_partitions()
+    # Create list of discs
     for disc in discs_data_temp:
-        # Get disc path ('C:', 'D:',...)
         discs.append(disc[0][0:2])
+
     return discs
 
 def get_disc_usage(disc = 'C:'):
@@ -87,8 +88,8 @@ def get_discs_usage_percent():
 # -------------------------------- NetWork Data functions --------------------------------
 def get_network_speed_deque_for_every_pc_connection(interval):
     """
-    Function that creates dict with all pc network connection keys, and refreshable deque's like values that shows network speed for that connection
-
+    Function that creates dict with all pc network connection keys, and refreshable deque's like values that shows network speed for that connection.
+    you can access data like that -> connections_speed["Connection_name"][-1] -> (Download_speed, Upload_speed)
 
     :param interval: Number of seconds between every deque is refreshed the info.
     :return: example of dict: {"Ethernet": deque(), "WiFi": deque()}, each deque refresh every (interval) seconds by itself and store current speed of network on this connection.
@@ -109,6 +110,7 @@ def get_network_speed_deque_for_every_pc_connection(interval):
 def get_network_connection_speed_deque(interval, interface="Ethernet"):
     """
     Function creates deque that stores relevant network data in format like -> deque[-1] = (current dl, current ul).
+    Function create thread that run endlessly, run this function carefully to save computer resources.
 
     :param interval: Interval that data refreshes inside the deque.
     :return: deque with data, data refresh every (Interval) of seconds.
@@ -117,6 +119,7 @@ def get_network_connection_speed_deque(interval, interface="Ethernet"):
 
     # Create Deque for thread results
     dl_ul_speed_deque = deque(maxlen=1)
+    dl_ul_speed_deque.append((0,0))
 
     # Create thread for collecting network data
     thread_network_calculation = threading.Thread(target=network_dl_ul_calculation, args=(dl_ul_speed_deque, interval, interface))

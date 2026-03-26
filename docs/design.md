@@ -10,6 +10,14 @@ After CTRL + C is pressed, main function call the stop statement for both thread
 ## Display function
 The Display function is using rich package to display the data in cmd.
 Display function get info from collector.py, with all data collector functions for PC information and time.
+Network data is saved and refreshes inside variable named "network_connections" inside the display function.
+
+## Collector
+For all pc spec except one, there is a function you call every time you need a pc stat.
+Only one data collector is uniq, Network data -> for each network card in a pc created deque and thread that run endlessly and stores data in the deque.
+That why you do not call collector function every time you need a network stat, you call it once for each interface and after that you can get info from deque that you got.
+example -> after you call a function get_network_speed_deque_for_every_pc_connection from collector. you got a dict with all connections and their deque's.
+To get that for one specific connection use: `connections_speed["Connection_name"][-1] -> (Download_speed, Upload_speed)`
 
 ## Logger function
 The logger function is creating file in path that user gave.
@@ -17,6 +25,7 @@ Each file have name by date it was created on, example of file name "1970-1-1.cs
 Logger function also create new file if day is over during the program run. 
 Logger function do not crush if it can't access to log file during the run, it waits and saves logs in memory until it can access.
 Logger get info from Collector function also, not from display function. 
+Network data is saved and refreshes inside variable named "network_connections" inside the logger function.
 Logger create last log into a file after program stopped by CTRL + C.
 
 ### Logs file folder
