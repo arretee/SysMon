@@ -1,11 +1,11 @@
 import threading
 import time
 import argparse
-from time import sleep
+import pathlib
 
 from collector import get_cpu_percent
 from display import display_table
-from logger import check_folder_exist, folder_can_be_created, logger
+from logger import check_folder_exist, logger
 
 def main():
     """
@@ -34,12 +34,7 @@ def main():
     logging = False # Variable that stores status of logger, is it active on this program run or not
     if log_path is not None:
         logging = True
-
-    # Check if log path is valid, if folder exists or can be created
-    # If do not exist and cant be created, close program and throw error
-    if logging:
-        if not check_folder_exist(log_path) and not folder_can_be_created(log_path):
-            raise ValueError("Path is invalid, Give path of existing folder or path to create one folder.")
+        log_path = pathlib.Path(log_path).resolve()  # Create abspath to log folder
 
 
     # ----- Create threads stop event -----

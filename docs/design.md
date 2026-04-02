@@ -29,9 +29,3 @@ Logger get info from Collector function also, not from display function.
 Network data is saved and refreshes inside variable named "network_connections" inside the logger function.
 Logger create last log into a file after program stopped by CTRL + C.
 
-### Logs file folder
-Logger can create a folder, but only one folder for logs files. 
-Example -> if path given is "../existed_folder/unexisted_folder", logger function will create unexisted_folder into existed_folder for logs file,
-But if path is "../unexisted_folder1/unexisted_folder2", main function will throw an ValueError("Path is invalid, Give path of existing folder or path to create one folder.")
-This checked on start of program inside main function in main.py.
-

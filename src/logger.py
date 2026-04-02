@@ -1,6 +1,6 @@
+import pathlib
 import threading
 import time
-import datetime
 import os
 import csv
 
@@ -14,24 +14,7 @@ def check_folder_exist(path):
     :param path: path of a folder
     :return: True or False value
     """
-    return os.path.isdir(path)
-
-def folder_can_be_created(path):
-    """
-    Function checks if folder can be created in previous folder. simply check if the folder before exists.
-    Use this function to check before use os.mkdir
-
-    :param path: path of a folder
-    :return: True or False Value
-    """
-    if '/' not in path:
-        return True
-
-    path_list = path.split('/')
-    path_list = path_list[0:-1]
-    path = '/'.join(path_list)
-
-    return check_folder_exist(path)
+    return pathlib.Path(path).is_dir()
 
 def file_exist(path):
     """
@@ -179,12 +162,12 @@ def write_log_line(file_path, data):
 
 
 # ----------------------------------- Main Log Loop Function -----------------------------------
-def logger(interval, path, stop_event = threading.Event(), durations = -1):
+def logger(interval, path: pathlib.Path, stop_event = threading.Event(), durations = -1):
     """
     Main Logger function logic. Creates file of logs, and saves logs in that file.
 
     :param interval: number of seconds between every log
-    :param path: path of folder to create there a log file
+    :param path: path of folder to create there a log file. pathling.Path obj
     :param stop_event: stop event of while loop inside the function -> threading.Event statement, by default loop is unstoppable.
     :param durations: Number of loop durations left to logger to do, created for testing.
     :return: None
@@ -195,12 +178,10 @@ def logger(interval, path, stop_event = threading.Event(), durations = -1):
 
     # ----- Get Full Path of a log file -----
     file_path = ''
-    if path == '':
-        file_path = str_date + ".csv"
-    elif path[-1] == '/':
-        file_path = path + str_date + ".csv"
+    if str(path)[-1] == '/':
+        file_path = str(path) + str_date + ".csv"
     else:
-        file_path = path + '/' + str_date + ".csv"
+        file_path = str(path) + '/' + str_date + ".csv"
 
     # ----- Create Deque's dict for network logging -----
     network_connections = collector.get_network_speed_deque_for_every_pc_connection(interval)
@@ -214,8 +195,8 @@ def logger(interval, path, stop_event = threading.Event(), durations = -1):
     params_list_history = []
 
     # ----- Create folder if not exist -----
-    if not os.path.isdir(path):
-        os.mkdir(path)
+    if not check_folder_exist(path):
+        path.mkdir(parents=True, exist_ok=True)
 
     # ----- Create file if not exist -----
     if not file_exist(file_path):
@@ -234,10 +215,10 @@ def logger(interval, path, stop_event = threading.Event(), durations = -1):
         # if the date do not equal the saved in memory date, change log file (Create new log file for new day) and update variables
         if temp_str_date != str_date:
             str_date = temp_str_date
-            if path[-1] == '/':
-                file_path = path + str_date + ".csv"
+            if str(path)[-1] == '/':
+                file_path = str(path) + str_date + ".csv"
             else:
-                file_path = path + '/' + str_date + ".csv"
+                file_path = str(path) + '/' + str_date + ".csv"
 
             if not file_exist(file_path):
                 create_log_file(file_path, get_params_titles(cpu_cores_num, discs_list, network_connections_names))
