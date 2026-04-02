@@ -7,15 +7,13 @@ from collections import deque
 import psutil
 
 # -------------------------------- CPU Data Functions --------------------------------
-get_cpu_calls_number = 0
 def get_cpu_percent():
-    global get_cpu_calls_number
+    """
+    Function returns per core list of percent of usage for each core of CPU.
+    WARNING: on first call, returns 0, 0, 0, 0, 0.
 
-    if get_cpu_calls_number < 10:
-        psutil.cpu_percent(interval=0, percpu=True)
-        sleep(0.1)
-        get_cpu_calls_number += 1
-
+    :return:
+    """
     return psutil.cpu_percent(interval=0, percpu=True)
 
 # -------------------------------- Memory Data Functions --------------------------------

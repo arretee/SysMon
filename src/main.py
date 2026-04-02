@@ -1,10 +1,10 @@
 import threading
 import time
 import argparse
+from time import sleep
 
-
+from collector import get_cpu_percent
 from display import display_table
-
 from logger import check_folder_exist, folder_can_be_created, logger
 
 def main():
@@ -13,14 +13,12 @@ def main():
     :return: None
     """
 
-    # Get Flags
+    # ----- Get Flags -----
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--interval", help = "Time between log and table updates (Seconds)", default = 2, type = float)
     parser.add_argument("-l", "--log", help = "Path for logs file folder, if not given logs are not created!", default=None, type = str)
     parser.add_argument("--cpu-warn", help="Use flag without value to get colored cpu indication.", default=False, action=argparse.BooleanOptionalAction)
     parser.add_argument("--mem-warn", help="Use flag without value to get colored memory indication.", default=False, action=argparse.BooleanOptionalAction)
-
-
 
     args = parser.parse_args()
 
