@@ -12,7 +12,7 @@ Simple cmd tool that help to user monitor and log pc stats in real time, pc stat
 
 ## Getting Started
 ### Dependencies
-* Python : [Python WebSite](https://www.python.org/).
+* Python 3.4 or higher: [Python WebSite](https://www.python.org/).
 * Necessary Python packages: rich , psutil
 * Windows 10 (Tested and created on Windows 10)
 
